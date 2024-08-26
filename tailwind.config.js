@@ -19,19 +19,29 @@ export default {
         body: ['16px', { fontWeight: '400' }],
         'body-sm': ['14px', { fontWeight: '400' }],
         button: ['16px', { fontWeight: '500' }],
+        'label-xl': ['18px', { fontWeight: '500' }],
         label: ['14px', { fontWeight: '400' }],
         'label-sm': ['12px', { fontWeight: '400' }],
+        nav: ['22px', { fontWeight: '500' }],
       },
     },
   },
   plugins: [
     variables,
-    plugin(({ addComponents, addBase, theme }) => {
+    plugin(({ addComponents, addBase }) => {
       addBase({
-        h1: { fontSize: '32px', fontWeight: '700' },
-        h2: { fontSize: '28px', fontWeight: '600' },
-        h3: { fontSize: '24px', fontWeight: '500' },
-      })
+        h1: { fontSize: '42px', fontWeight: '700' },
+        h2: { fontSize: '32px', fontWeight: '600' },
+        h3: { fontSize: '28px', fontWeight: '500' },
+      }),
+        addComponents({
+          '.absolute-center': {
+            position: 'absolute',
+            transform: 'translate(-50%, -50%)',
+            top: '50%',
+            left: '50%',
+          },
+        })
     }),
   ],
 }

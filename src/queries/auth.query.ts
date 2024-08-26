@@ -1,6 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
 import { api } from '@/api'
 import { UserAuth } from '@/api/firebase'
+import { User } from 'firebase/auth'
+import { FirebaseError } from '@firebase/util'
 
 export const useSignInQuery = () => {
   const {
@@ -9,7 +11,8 @@ export const useSignInQuery = () => {
     isPending,
     isSuccess,
     isError,
-  } = useMutation({
+    error,
+  } = useMutation<User, FirebaseError, UserAuth, unknown>({
     mutationKey: ['sign_in'],
     mutationFn: (data: UserAuth) => api.firebase.auth.signIn(data),
   })
@@ -20,6 +23,7 @@ export const useSignInQuery = () => {
     data,
     isSuccess,
     isError,
+    error: error?.code,
   }
 }
 
@@ -30,7 +34,7 @@ export const useSignUpQuery = () => {
     isPending,
     isSuccess,
     isError,
-  } = useMutation({
+  } = useMutation<User, FirebaseError, UserAuth, unknown>({
     mutationKey: ['sign_up'],
     mutationFn: (data: UserAuth) => api.firebase.auth.signUp(data),
   })
@@ -51,7 +55,7 @@ export const useSignOutQuery = () => {
     isPending,
     isSuccess,
     isError,
-  } = useMutation({
+  } = useMutation<string, FirebaseError, void, unknown>({
     mutationKey: ['sign_out'],
     mutationFn: api.firebase.auth.signOutUser,
   })

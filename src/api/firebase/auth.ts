@@ -3,7 +3,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
 } from 'firebase/auth'
-import { Auth } from 'firebase/auth'
+import { Auth, User } from 'firebase/auth'
 
 export type UserAuth = {
   email: string
@@ -11,7 +11,7 @@ export type UserAuth = {
 }
 
 export const authFirebaseApi = (client: Auth) => {
-  const signIn = async (data: UserAuth) => {
+  const signIn = async (data: UserAuth): Promise<User> => {
     const response = await signInWithEmailAndPassword(
       client,
       data.email,

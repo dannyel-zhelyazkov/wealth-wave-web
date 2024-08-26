@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { ChangeEvent, FC } from 'react'
 import { Button, Field, TextInput } from '@/components/atoms'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
@@ -9,14 +9,16 @@ import { APP_REDIRECT_ROUTES } from '@/constants'
 import { UserAuth } from '@/api/firebase'
 import { useSignUpQuery } from '@/queries'
 
-export const signUpScheme = object({
+const signUpScheme = object({
   email: string().email().required('Email is required'),
-  password: string().required('Password is required'),
+  password: string()
+    .required('Password is required')
+    .min(6, 'Password should contain at least 6 characters'),
 }).required()
 
 export const SignUpForm: FC = () => {
   const navigate = useNavigate()
-  const { control, handleSubmit } = useForm<UserAuth>({
+  const { control, handleSubmit, setValue } = useForm<UserAuth>({
     defaultValues: {
       email: '',
       password: '',
@@ -35,6 +37,17 @@ export const SignUpForm: FC = () => {
     navigate(APP_REDIRECT_ROUTES.BASE_APP_REDIRECT_ROUTE)
   }
 
+  const handleControlEmail = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value
+
+    /* set email domain to main domain */
+    setValue('email', value.replace(/@.*/, '@ww.com'), {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true,
+    })
+  }
+
   return (
     <form
       autoComplete="off"
@@ -47,6 +60,7 @@ export const SignUpForm: FC = () => {
           name="email"
           control={control}
           rules={{ required: true }}
+          onChange={handleControlEmail}
         />
       </Field>
       <Field flow="col" className="mb-4">

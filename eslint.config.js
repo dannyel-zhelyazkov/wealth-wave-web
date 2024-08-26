@@ -21,7 +21,10 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
       'unused-imports/no-unused-imports': 'error',
       'unused-imports/no-unused-vars': [
         'warn',
@@ -32,6 +35,7 @@ export default tseslint.config(
           argsIgnorePattern: '^_',
         },
       ],
+      'react-hooks/exhaustive-deps': ['off'],
     },
   },
 )
